@@ -14,7 +14,6 @@ class Director(models.Model):
         return 'Director {} {} nacido en {}'.format(self.apellido, self.nombre, self.fecha_nacimiento)
 
 class Pelicula(models.Model):
-    
     DR = 'Drama'
     RO = 'Romance'
     AC = 'Accion'
@@ -24,7 +23,11 @@ class Pelicula(models.Model):
     PO = 'Policial'
     PL = 'Politica'
     FA = 'Fantasia'
-
+    AT = 'ATP'
+    M3 = '+13'
+    M6 = '+16'
+    M8 = '+18'
+    
     GENERO_CHOICES = (
         (DR , 'Drama'),
         (RO , 'Romance'),
@@ -36,12 +39,6 @@ class Pelicula(models.Model):
         (PL , 'Politica'),
         (FA , 'Fantasia'),
     )
-
-    
-    AT = 'ATP'
-    M3 = '+13'
-    M6 = '+16'
-    M8 = '+18'
     
     EDADES_CHOICES = (
         (AT , 'ATP'),
@@ -57,6 +54,33 @@ class Pelicula(models.Model):
     fecha_estreno = models.DateTimeField(null=False)
     portada = models.FileField(upload_to='', unique=True)
     clasificacion = models.CharField('Edades', max_length=3, choices=EDADES_CHOICES)
+    duracion = models.IntegerField(null=False)
     
     def __str__(self):
         return '{} dirigida por: {}'.format(self.nombre, self.director.nombre)
+    
+    
+class Sala(models.Model):
+    numero = models.IntegerField(null=False)
+    cant_asientos = models.IntegerField(null=False)
+    
+    def __str__(self):
+        return 'Numero de Sala {}'.format(self.numero)
+    
+    
+class asignar_Sala(models.Model):
+    fecha_inicio = models.DateTimeField(null=False)
+    fecha_fin = models.DateTimeField(null=False)
+    pelicula = models.ForeignKey(Pelicula)
+    sala = models.ForeignKey(Sala)
+    en_cartelera = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return 'En la Sala {} se encuentra la pelicula {}'.format(self.sala.numero, self.pelicula.nombre)
+    
+class Entrada(models.Model):
+    cantidad = models.IntegerField(null=False, default=1)
+    sala = models.ForeignKey(asignar_Sala)
+    
+    def __str__(self):
+        return '{} entradas vendidas para {} en la sala {}.'.format(self.cantidad, self.sala.pelicula.nombre, self.sala.numero)

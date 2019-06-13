@@ -1,0 +1,59 @@
+<html>
+
+    <head>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="/js/my.js"></script>
+        
+    </head>
+
+    <body>
+
+        <center><h2>Compra de Entradas para {{pelicula.nombre}}</h2></center>
+        <br>
+        <center><p>Cantidad de Entradas: <input type="number" name="quantity" id="myInput" min="1" max="5" oninput="myFunction()"></p></center>
+        
+        <center><p>Utiliza Promocion:  <select id="promo" name="promo">
+            <option value=0>No</option>
+            <option value=1>Si</option>
+            </select> </p></center>
+
+        <center><p id="demo"></p></center>
+        <center><p><span style="color:red" id="res"></span></p></center> 
+
+        <center><button onclick="comprar()">Comprar</button></center>
+        
+        <script>
+            var x = document.getElementById("myInput").value;
+            function myFunction() {
+                var precio = x*200;
+                var promo_v = $('select[name=promo]').val()
+                /*
+                if (precio > 200){
+                    precio_final = ((50*precio)/100)+200;
+                    precio = precio_final;
+                }
+                if (promo_v == 1){
+                    precio = precio/2
+                }
+                console.log(precio);
+                document.getElementById("demo").innerHTML = "Precio: " + precio;
+                */
+            }
+            
+            function comprar(){
+                var error = "Ingrese un Precio Valido";
+                var vacio = "";
+                if (x == 0 || x < 0){
+                    document.getElementById('res').innerHTML = error;
+                } else{
+                    document.getElementById('res').innerHTML = vacio;
+                    console.log("valido");
+                }
+            }
+            
+        </script>
+
+        <a href="{% url 'index' %}">Volver</a>
+    </body>
+</html>

@@ -5,3 +5,6 @@ from .models import *
 
 admin.site.register(Pelicula)
 admin.site.register(Director)
+admin.site.register(Sala)
+admin.site.register(asignar_Sala)
+admin.site.register(Entrada)

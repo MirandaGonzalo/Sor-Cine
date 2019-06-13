@@ -10,6 +10,12 @@
         <p>{{pelicula.fecha_estreno}}</p>
         <p>{{pelicula.clasificacion}}</p>
         
+        <p>Salas donde se encuentra esta pelicula: </p>
+        <ul>
+        {% for sala in salas_disponibles %}
+            <li>{{sala.sala.numero}}</li>
+        {% endfor %}
+        </ul>
         <br>
         
         <a href="{% url 'index' %}">Volver</a>
