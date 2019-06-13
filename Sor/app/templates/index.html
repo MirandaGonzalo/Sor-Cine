@@ -1,0 +1,19 @@
+<html>
+    <head>
+    
+    </head>
+    
+    <body>
+        
+        <center><h3>Bienvenido</h3></center>
+        
+        <ul>
+        {% for pelicula in todas_las_peliculas %}
+            <li>{{pelicula.nombre}}</li>
+            <img src="{{ pelicula.portada.url }}" alt="Smiley face" height="100" width="100">
+            <a href="{% url 'datos_pelicula' pelicula.id %}">Ver Mas</a>
+        {% endfor %}
+        </ul>
+    </body>
+    
+</html>

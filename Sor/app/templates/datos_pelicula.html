@@ -1,0 +1,17 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <h3><strong>Datos de {{pelicula.nombre}}</strong></h3>
+        <img src="{{ pelicula.portada.url }}" alt="Smiley face" height="100" width="100">
+        <p>{{pelicula.descripcion}}</p>
+        <p>{{pelicula.genero}}</p>
+        <p>{{pelicula.director}}</p>
+        <p>{{pelicula.fecha_estreno}}</p>
+        <p>{{pelicula.clasificacion}}</p>
+        
+        <br>
+        
+        <a href="{% url 'index' %}">Volver</a>
+    </body>
+</html>
