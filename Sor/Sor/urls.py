@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', index, name="index"),
+    url(r'^compra/', compra, name="compra"),
     url(r'^datos_pelicula/(?P<id_pelicula>\d+)$', datos_pelicula, name="datos_pelicula"),
     url(r'^compra_entradas/(?P<id_pelicula>\d+)$', compra_entradas, name="compra_entradas"),
     url(r'^admin/', admin.site.urls),

@@ -80,7 +80,8 @@ class asignar_Sala(models.Model):
     
 class Entrada(models.Model):
     cantidad = models.IntegerField(null=False, default=1)
-    sala = models.ForeignKey(asignar_Sala)
+    sala = models.ForeignKey(Sala)
+    precio = models.IntegerField(null=False)
     
     def __str__(self):
         return '{} entradas vendidas para {} en la sala {}.'.format(self.cantidad, self.sala.pelicula.nombre, self.sala.numero)
