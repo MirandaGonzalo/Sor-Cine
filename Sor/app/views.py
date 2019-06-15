@@ -41,6 +41,7 @@ def compra(request):
         vend = int(vendidas)
         can = int(cant_entradas)
         a = vend + can
+        estado = 0
         if (a > limite):
             msg = "No hay suficientes asientos disponibles."
         else:
@@ -48,8 +49,10 @@ def compra(request):
             entrada = Entrada(cantidad=can, sala=sala, precio=precio)
             entrada.save()
             msg = "Entradas compradas con exito."
+            estado = 1
         data = {
-            'resultado': msg
+            'resultado': msg,
+            'estado':estado
         }
         return JsonResponse(data)
     
