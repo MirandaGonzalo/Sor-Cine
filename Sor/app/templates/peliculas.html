@@ -1,0 +1,79 @@
+<html>
+    {% load static %}
+    <head>
+
+        <link href="{% static 'materialize/icons/icons.css' %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'materialize/js/materialize.min.js' %}"></script>
+
+        <!-- Importamos materialize.css -->
+
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
+
+        <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
+
+        <style>
+
+            br {
+               display: block;
+               margin: 10px 0;
+            }
+        </style>
+
+    </head>
+
+    <body style="background-color:#80aaff" >
+      <div class="navbar-fixed">
+        <nav style="background-color: black" role="navigation">
+            <div class="nav-wrapper z-depth-4">
+                <a id="logo-container" data-target="modal1" href="{% url 'index' %}" class="brand-logo modal-trigger">
+                    <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
+
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="badges.html">Salas</a></li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+        <br>
+        <br>
+        <nav style="background-color: black" role="show">
+            <div class="nav-wrapper z-depth-4">
+
+                <!-- Logo y título centrado -->
+
+                <a id="logo-container" class="brand-logo center modal-trigger">
+                    <i class="material-icons prefix" style="font-size: 45px">star</i> PELICULAS EN CARTELERA
+                </a>
+            </div>
+        </nav>
+
+        <br>
+
+
+        <div class="row" id="pedidos_matriculacion">
+
+            {% for pelicula in todas_las_peliculas %}
+            <div class="card text-center" style="width:20%; margin-left: 3%;">
+                <div class="card-body">
+                    <br>
+                    <center><h4 class="card-title">{{pelicula.nombre|title}}</h4></center>
+                    <img alt="Trulli" width="257" height="250" src="{{ pelicula.portada.url }}">
+
+                </div>
+                <br>
+                <div class="card-footer">
+                    <big class="text-muted"><center><a class="waves-effect waves-light btn" href="{% url 'datos_pelicula' pelicula.id%}">Ver Mas</a></center></big>
+                    <span class="card-title activator grey-text text-darken-4"><i class="material-icons right"></i></span>
+
+                </div>
+                <br>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+
+</html>

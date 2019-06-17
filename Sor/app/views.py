@@ -57,3 +57,17 @@ def compra(request):
         return JsonResponse(data)
     
     return render(request, 'index.html')
+
+def ver_peliculas(request):
+    pelicula = Pelicula.objects.all()
+    print pelicula
+    return render(request, 'peliculas.html', {'todas_las_peliculas':pelicula})
+
+def salas(request):
+    salas = Sala.objects.all().order_by('numero')
+    return render(request, 'salas.html', {'salas':salas})
+
+def salas_asignadas(request, id_sala):
+    sala_elegida = Sala.objects.get(id=id_sala)
+    salas_asignadas = asignar_Sala.objects.filter(sala__id=id_sala, en_cartelera=True)
+    return render(request, 'salas_asig.html', {'salas_asignadas':salas_asignadas, 'sala':sala_elegida})

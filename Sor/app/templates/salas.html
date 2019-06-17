@@ -1,0 +1,94 @@
+<html>
+    {% load static %}
+    <head>
+        <link href="{% static 'materialize/icons/icons.css' %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <!-- Importamos materialize.css -->
+
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
+
+        <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+
+    </head>
+
+    <body style="background-color:#ffffff" >
+
+        <div id="modal_info" class="modal">
+            <h4>Modal Header</h4>
+            <div class="modal-dialog">
+                <div id="datos_sala">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="col s6">
+                <table class="strippd centered">
+                    <thead>
+                        <tr>
+                            <th data-field="id">Numero</th>
+                            <th data-field="name">Capacidad</th>
+                            <th data-field="price">Info</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for sala in salas%}
+                        <tr>
+                            <td>{{sala.numero}}</td>
+                            <td>{{sala.cant_asientos}}</td>
+                            <td><button class="btn btn-primary" data-target="modal_info"><i style="font-size:15px" class="fa">&#xf129;</i></button></td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+
+
+
+    </body>
+
+    <script>
+
+        function info_sala(url, alum){
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+            })
+                .done(function (data) {
+                $("#datos_sala").html(data);
+                console.log("anda");
+            });
+        }
+
+    </script>
+</html>

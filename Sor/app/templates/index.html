@@ -5,135 +5,130 @@
 
 {% load static %}
 <html>
-	<head>
-        
-		<!-- Importamos Google Icon Font -->
-        
-		<link href="{% static 'materialize/icons/icons.css' %}" rel="stylesheet">
-		<script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
-		<script type="text/javascript" src="{% static 'materialize/js/materialize.min.js' %}"></script>
-        
-		<!-- Importamos materialize.css -->
-        
-		<link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
-        
-		<!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
-        
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
-        
-		<!-- Agregamos un título a esta plantilla -->
-        
-		<title>LOLO´S CINE</title>
-	</head>
-	<body style="background-color:#005580">
-        
-		<!-- Navbar -->
-        
-		<nav style="background-color: black" role="navigation">
-			<div class="nav-wrapper z-depth-4">
-				<a id="logo-container" data-target="modal1" onclick="abrir_modal()" class="brand-logo modal-trigger">
-					<i class="material-icons prefix" style="font-size: 45px">videocam</i> LOLO´S CINE </a>
-                
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="sass.html">Sass</a></li>
-                <li><a href="badges.html">Components</a></li>
-                <li><a href="collapsible.html">JavaScript</a></li>
-              </ul>
-                
-			</div>
-		</nav>
-        
-		<!-- Parallax 1 -->
-        
-		<div id="index-banner" class="parallax-container z-depth-4">
-			<div class="parallax"><img src='{% static "img/popcorn.jpg" %}'></div>
-		</div>
-        
+    <head>
+
+        <!-- Importamos Google Icon Font -->
+
+        <link href="{% static 'materialize/icons/icons.css' %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'materialize/js/materialize.min.js' %}"></script>
+
+        <!-- Importamos materialize.css -->
+
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
+
+        <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
+
+        <!-- Agregamos un título a esta plantilla -->
+
+        <style>
+
+            .carousel .carousel-item {
+                height: 150px !important,
+                width:220px !important;}
+
+        </style>
+
+        <title>CINE HOYTS</title>
+    </head>
+    <body style="background-color:#005580">
+
+        <!-- Navbar -->
+        <div class="navbar-fixed">
+        <nav style="background-color: black" role="navigation">
+            <div class="nav-wrapper z-depth-4">
+                <a id="logo-container" data-target="modal1" onclick="abrir_modal()" class="brand-logo modal-trigger">
+                    <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
+
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{% url 'salas' %}">Salas</a></li>
+                    <li><a href="{% url 'ver_peliculas' %}">Ver Cartelera</a></li>
+                </ul>
+
+            </div>
+        </nav>
+        </div>
+        <!-- Parallax 1 -->
+
+        <div id="index-banner" class="parallax-container z-depth-4">
+            <div class="parallax"><img src='{% static "img/popcorn.jpg" %}'></div>
+        </div>
+
         <!-- Carousel -->
-          <div class="carousel">
-                         
-                <nav style="background-color: black" role="show">
-                    <div class="nav-wrapper z-depth-4">
+        <div class="carousel">
 
-                        <!-- Logo y título centrado -->
+            <nav style="background-color: black" role="show">
+                <div class="nav-wrapper z-depth-4">
 
-                        <a id="logo-container" class="brand-logo center modal-trigger">
-                            <i class="material-icons prefix" style="font-size: 45px">star</i> TOP PELICULAS
-                        </a>
+                    <!-- Logo y título centrado -->
+
+                    <a id="logo-container" class="brand-logo center modal-trigger">
+                        <i class="material-icons prefix" style="font-size: 45px">star</i> TOP PELICULAS
+                    </a>
+                </div>
+            </nav>
+
+            {% for pelicula in todas_las_peliculas %}
+                <a class="carousel-item" ><img src="{{ pelicula.pelicula.portada.url }}" href="{% url 'datos_pelicula' pelicula.pelicula.id %}"></a>
+            {% endfor %}
+        </div>
+        <br>
+        <br>
+
+        <!-- Parallax 2 -->
+
+        <div class="parallax-container valign-wrapper z-depth-4">
+            <div class="parallax">
+                <img src='{% static "img/asdf.jpg" %}' alt="Unsplashed background img 2">
+            </div>
+        </div>
+
+        <!-- Footer -->
+
+        <footer class="page-footer z-depth-4" style="background-color: #005580">
+
+            <!-- Contenedor de información acerca de nosotros -->
+
+            <div class="container">
+                <div class="row">
+                    <h5 class="white-text">Bio de la pagina</h5>
+                    <p class="grey-text text-lighten-4" style="text-align:justify;text-justify:inter-word">Somos un equipo de
+                        hackers que busca promover la pirateria de peliculas de alta calidad a nivel global.</p>
+                </div>
+                <!-- Contenedor de créditos y copyright -->
+
+                <div class="footer-copyright z-depth-4" style="background-color: black">
+                    <div class="container" style="text-align: center">Realizado por
+                        <b>Gonzalo y Miranda</b> con <a style="color:#ff8484" href="http://materializecss.com/"><b>UN POCO DE HUEVO</b></a>
                     </div>
-                </nav>
-              
-               {% for pelicula in todas_las_peliculas %}
-                    <a class="carousel-item" href="#one!"><img src="{{ pelicula.pelicula.portada.url }}"></a>
-                {% endfor %}
-          </div>
-        
-		<!-- Parallax 2 -->
-        
-		<div class="parallax-container valign-wrapper z-depth-4">
-			<div class="parallax">
-				<img src='{% static "img/asdf.jpg" %}' alt="Unsplashed background img 2">
-			</div>
-		</div>
-        
-		<!-- Footer -->
-        
-		<footer class="page-footer z-depth-4" style="background-color: #005580">
-            
-			<!-- Contenedor de información acerca de nosotros -->
-            
-			<div class="container">
-				<div class="row">
-					<h5 class="white-text">Bio de la pagina</h5>
-					<p class="grey-text text-lighten-4" style="text-align:justify;text-justify:inter-word">Somos un equipo de
-						hackers que busca promover la pirateria de peliculas de alta calidad a nivel global.</p>
-				</div>
-			<!-- Contenedor de créditos y copyright -->
-                
-				<div class="footer-copyright z-depth-4" style="background-color: black">
-					<div class="container" style="text-align: center">Realizado por
-						<b>Gonzalo y Miranda</b> con <a style="color:#ff8484" href="http://materializecss.com/"><b>UN POCO DE HUEVO</b></a>
-					</div>
-				</div>
-			</div>
-		</footer>
-		<div id="modal1" class="modal">
-		    <div class="modal-content">
-		      <h4>Administrador de Datos Institucionales</h4>
-		      <p>El proyecto ADI tiene la función de facilitar las actividades tanto de la Preceptoria como de la
-					Administración de la Institución como el manejo de la asistencia y de los formularios de los alumnos
-				al momento de un imprevisto, también tiene un sistema con el que el Padre/Tutor puede visualizar cuantas
-			faltas tiene su hijo y poder ver si este se encuentra en la Institución</p>
-		    </div>
-		    <div class="modal-footer">
-		      <a class="modal-action modal-close waves-effect waves-green btn-flat"><i class="material-icons prefix" style="font-size: 45px">done</i></a>
-		    </div>
-		  </div>
-	</body>
-    
-		<!-- Inicializamos parallax -->
-		<script>
-			$(document).ready(function(){
-				$('.parallax').parallax();
-			});
+                </div>
+            </div>
+        </footer>
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Cine Hoyts</h4>
+                <p>Esta pagina web tiene como objetivo brindar informacion para facilitar la venta de entradas para poder realizar un documento que contenga informacion acerca de la cantidad de ventas realizdas en el dia.</p>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat"><i class="material-icons prefix" style="font-size: 45px">done</i></a>
+            </div>
+        </div>
+    </body>
 
-			function abrir_modal(){
-				$('.modal').modal();
-			}
-            
-            
-              document.addEventListener('DOMContentLoaded', function() {
-                var elems = document.querySelectorAll('.carousel');
-                var instances = M.Carousel.init(elems, options);
-              });
+    <!-- Inicializamos parallax -->
+    <script>
+        $(document).ready(function(){
+            $('.parallax').parallax();
+            $('.carousel').carousel();
+        });
 
-              // Or with jQuery
-
-              $(document).ready(function(){
-                $('.carousel').carousel();
-              });
-
-		</script>
+        function abrir_modal(){
+            $('.modal').modal();
+        }
+        
+    </script>
 
 </html>
 

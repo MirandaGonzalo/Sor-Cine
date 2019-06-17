@@ -1,23 +1,75 @@
 <html>
+    {% load static %}
     <head>
+
+        <link href="{% static 'materialize/icons/icons.css' %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'materialize/js/materialize.min.js' %}"></script>
+
+        <!-- Importamos materialize.css -->
+
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
+
+        <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
+
+        <style>
+            br2 {
+                display: block;
+                margin: 10px;
+            }
+        </style>
+
     </head>
-    <body>
-        <h3><strong>Datos de {{pelicula.nombre}}</strong></h3>
-        <img src="{{ pelicula.portada.url }}" alt="Smiley face" height="100" width="100">
-        <p>{{pelicula.descripcion}}</p>
+    <body style="background-color:#005580">
+
+
+        <div class="navbar-fixed">
+            <nav style="background-color: black" role="navigation">
+                <div class="nav-wrapper z-depth-4">
+                    <a id="logo-container" data-target="modal1" href="{% url 'index' %}" class="brand-logo modal-trigger">
+                        <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
+
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a >Salas</a></li>
+                        <li><a >Ver Cartelera</a></li>
+                    </ul>
+
+                </div>
+            </nav>
+
+        </div>
+
+
+        <center><h3><strong><u>Datos de {{pelicula.nombre}}</u></strong></h3></center>
+
+
+        <h3>Sinopsis:</h3><p>{{pelicula.descripcion}}</p>
+        <br2></br2>
+        <h3>Genero: </h3>
         <p>{{pelicula.genero}}</p>
-        <p>{{pelicula.director}}</p>
-        <p>{{pelicula.fecha_estreno}}</p>
-        <p>{{pelicula.clasificacion}}</p>
-        
-        <p>Salas donde se encuentra esta pelicula: </p>
-        <ul>
-        {% for sala in salas_disponibles %}
-            <li>{{sala.sala.numero}}</li>
-        {% endfor %}
-        </ul>
-        <br>
-        
-        <a href="{% url 'index' %}">Volver</a>
+        <br2>
+            <h3>Director: </h3>
+            <p>{{pelicula.director}}</p>
+            <br2></br2>
+            <h3>Fecha de Estreno: </h3>
+            <p>{{pelicula.fecha_estreno}}</p>
+            <br2></br2>
+            <h3>Clasificacion: </h3>
+            <p>{{pelicula.clasificacion}}</p>
+            <br2></br2>
+            <p>Salas donde se encuentra esta pelicula: </p>
+            <ul>
+                {% for sala in salas_disponibles %}
+                <li>{{sala.sala.numero}}</li>
+                {% endfor %}
+            </ul>
+
+            <button>Continuar</button>
+
+        </br2>
+
+
     </body>
 </html>
