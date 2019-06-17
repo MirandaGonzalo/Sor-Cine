@@ -32,23 +32,17 @@ def compra(request):
         pelicula = Pelicula.objects.get(id=id_peli) 
         sala_a = asignar_Sala.objects.get(pelicula=pelicula, sala=sala)
         limite = sala.cant_asientos
-        vendidas = 0
-        entradas = Entrada.objects.filter(sala_p=sala_a)
-        for a in entradas:
-            total = a.cantidad
-            vendidas += total
-
-        disponible = (limite-vendidas)
-        vend = int(vendidas)
-        can = int(cant_entradas)
-        a = vend + can
+        ev = sala_a.entradas_vendidas
+        ev2 = int(ev)
+        cant_entradas2 = int(cant_entradas)
+        a = (ev2 + cant_entradas2)
         estado = 0
         if (a > limite):
             msg = "No hay suficientes asientos disponibles."
         else:
-            entrada = Entrada(cantidad=can,precio=precio, sala_p=sala_a)
+            entrada = Entrada(cantidad=cant_entradas,precio=precio, sala_p=sala_a)
             entrada.save()
-            sala_a.entradas_vendidas += entrada.cantidad
+            sala_a.entradas_vendidas += cant_entradas2
             sala_a.save()
             msg = "Entradas compradas con exito."
             estado = 1
@@ -61,9 +55,8 @@ def compra(request):
     return render(request, 'index.html')
 
 def ver_peliculas(request):
-    pelicula = Pelicula.objects.all()
-    print pelicula
-    return render(request, 'peliculas.html', {'todas_las_peliculas':pelicula})
+    asignar_sala = asignar_Sala.objects.filter(en_cartelera=True)
+    return render(request, 'peliculas.html', {'todas_las_peliculas':asignar_sala})
 
 def salas(request):
     salas = Sala.objects.all().order_by('numero')

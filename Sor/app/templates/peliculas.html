@@ -77,14 +77,14 @@
                 <div class="card text-center" style="width:82%; margin-left: 3%;">
                     <div class="card-body">
                         <br>
-                        <center><h4 class="card-title">{{pelicula.nombre|title}}</h4></center>
-                        <a onclick="info_pelicula('{% url 'datos_pelicula' pelicula.id %}')"><img alt="Trulli" width="245" height="250" src="{{ pelicula.portada.url }}"></a>
+                        <center><h4 class="card-title">{{pelicula.pelicula.nombre|title}}</h4></center>
+                        <a onclick="info_pelicula('{% url 'datos_pelicula' pelicula.pelicula.id %}')"><img alt="Trulli" width="245" height="250" src="{{ pelicula.pelicula.portada.url }}"></a>
 
                     </div>
                     <br>
                     <div class="card-footer">
                         <center>
-                            <a class="waves-effect waves-light btn" href="{% url 'compra_entradas' pelicula.id%}">Comprar</a></center>
+                            <a class="waves-effect waves-light btn" href="{% url 'compra_entradas' pelicula.pelicula.id%}">Comprar</a></center>
                         <span class="card-title activator grey-text text-darken-4"><i class="material-icons right"></i></span>
 
                     </div>

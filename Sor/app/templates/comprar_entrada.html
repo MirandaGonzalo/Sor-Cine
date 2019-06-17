@@ -1,66 +1,91 @@
 <html>
-
+    {% load static %}
     <head>
+       <link href="{% static 'materialize/icons/icons.css' %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="/js/my.js"></script>
-        
-                <!-- The Modal -->
-        <div class="modal fade" id="myModal">
-          <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
+        <!-- Importamos materialize.css -->
 
-              <!-- Modal Header -->
-              <div class="modal-header">
-                <h4 class="modal-title">Resultado</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
 
-              <!-- Modal body -->
-              <div class="modal-body">
-                <span id="resultado_curso"></span>
-              </div>
+        <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
 
-              <!-- Modal footer -->
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Continuar</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
 
+        <style>
 
+            .container {
+                width: 15%;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .modal {
+                width: 22% !important ;
+                height: 33% !important ;
+            }
+
+        </style>
     </head>
+    <body style="background-color:#e6e6ff">
 
-    <body>
 
-        <div id="div_compra">
-            
-        <center><h2>Compra de Entradas para {{pelicula.nombre}}</h2></center>
+        <div class="navbar-fixed">
+            <nav style="background-color: black" role="navigation">
+                <div class="nav-wrapper z-depth-4">
+                    <a id="logo-container" data-target="modal1" href="{% url 'index' %}" class="brand-logo modal-trigger">
+                        <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="{% url 'salas' %}">Salas</a></li>
+                        <li><a href="{% url 'ver_peliculas' %}">Ver Cartelera</a></li>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
         <br>
-        <center><p>Elegir Sala:  <select id="sala" name="sala">
-            <option value=0>Opciones</option>
-            {% for sala in todas_las_salas%}
-            <option value={{sala.sala.id}}>{{sala.sala.numero}}</option>
-            {% endfor %}
-            </select> </p></center>
 
-        <center><p>Cantidad de Entradas: <input type="number" name="quantity" id="myInput" min="1" max="99" oninput="myFunction()"></p></center>
+        <nav style="background-color: black" role="show">
+            <div class="nav-wrapper z-depth-4">
 
-        <center><p>Utiliza Promocion:  <select id="promo" name="promo">
-            <option value=0>No</option>
-            <option value=1>Si</option>
-            </select> </p></center>
+                <!-- Logo y título centrado -->
 
-        <center><p id="demo"></p></center>
+                <a id="logo-container" class="brand-logo center modal-trigger">
+                    <i class="material-icons prefix" style="font-size: 45px">star</i> Comprar Entradas para {{pelicula.nombre}}
+                </a>
+            </div>
+        </nav>
 
-        <center><p><span style="color:red" id="res"></span></p></center> 
+        <br>
+        <div class="container">
+            <div class=row>
+                <div class="input-field col s12">
+                    <select id="sala_elegida">
+                        <option value=0>0</option>
+                        {% for sala in todas_las_salas%}
+                            <option value={{sala.sala.id}}>{{sala.sala.numero}}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Sala</label>
+                </div>
+            </div>
 
-        <center><button onclick="comprar()">Comprar</button></center>
-
-        </div>    
+            <div class="input-field col s6">
+              <input id="cantidad_entr" type="tel" class="validate">
+              <label for="icon_telephone">Cantidad de Entradas</label>
+            </div>
+            <br>
+            <div class="input-field col s12">
+                <select id="promo">
+                    <option value=0>No</option>
+                    <option value=1>Si</option>
+                </select>
+                <label>Utiliza Promocion</label>
+            </div>
             
-        <span id="resultado" style="color:skyblue"></span>
+        </div>
         
         <form id="form_compra" method="post">
             {% csrf_token %}
@@ -70,41 +95,38 @@
             <input type="hidden" name="id_peli" id="id_peli" value={{pelicula.id}}>
         </form>
 
-        <a href="{% url 'index' %}">Volver</a>
+
+        <center><p id="demo"></p></center>
+
+        <center><p><span style="color:red" id="res"></span></p></center>
+
+        <center><button onclick="comprar()">Comprar</button></center>
+
+
+
+
+
+
+         <div id="modal1" class="modal">
+            <div class="modal-content">
+              <h4>Resultado</h4>
+              <span id="resultado" style="color:skyblue"></span>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+            </div>
+          </div>
+
+
     </body>
         <script>
-            var vacio = "";
-            function myFunction() {
-                var x = document.getElementById("myInput").value;
 
-                if (x > 0){
-                    document.getElementById('res').innerHTML = vacio;
-                }
 
-                var precio = x*200;
-                var promo_v = $('select[name=promo]').val()
-                if (precio > 200){
-                    precio_final = ((50*precio)/100)+200;
-                    precio = precio_final;
-                }
-                if (promo_v == 1){
-                    precio = precio/2
-                }
-                var y = document.getElementById("precio");
-                y.value = precio;
-                var cant_e = document.getElementById("cant_entradas");
-                cant_e.value = x;
-
-                var sal = $('select[name=sala]').val()
-                var sala = document.getElementById("id_sala");
-                sala.value = sal;
-                document.getElementById("demo").innerHTML = "Precio: " + precio;
-
-            }
 
             function comprar(){
-                var x = document.getElementById("myInput").value;
-                var error = "Ingrese un Precio Valido";
+                var x = $("#cantidad_entr").val()
+                document.getElementById("cant_entradas").value = x;
+                var error = "Error !";
                 var vacio = "";
                 var t = document.getElementById("resultado");
                 var myForm = document.getElementById('form_compra');
@@ -117,7 +139,16 @@
                     if (ids == 0){
                         document.getElementById("demo").innerHTML = "Elija una Sala";
                     } else{
-                        if (confirm("Vender Entradas ?")) {
+                        var precio = x*200;
+                        var promo_v = $("#promo").val()
+                        if (precio > 200){
+                            precio_final = ((50*precio)/100)+200;
+                            precio = precio_final;
+                        }
+                        if (promo_v == 1){
+                            precio = precio/2
+                        }
+                        if (confirm("Vender Entradas ?"+ "($ " +precio + ")")) {
                             $.ajax({
                                 url: '{% url 'compra' %}',
                                 data : formData,
@@ -130,14 +161,34 @@
                                     } else{
                                         t.innerHTML = data.resultado;
                                     }
-                                }    
+                                    $('#modal1').modal();
+                                    $('#modal1').modal('open');
+                                }
                             });
                         } else {
 
                         } 
                     }
                 }
+
             }
+
+             document.addEventListener('DOMContentLoaded', function() {
+                var elems = document.querySelectorAll('select');
+                var instances = M.FormSelect.init(elems, options);
+              });
+
+              // Or with jQuery
+
+              $(document).ready(function(){
+                $('select').formSelect();
+              });
+
+            $("#sala_elegida").on('change', function() {
+                var x = $("#sala_elegida").val()
+                document.getElementById("id_sala").value = x;
+
+            });
 
         </script>
 
