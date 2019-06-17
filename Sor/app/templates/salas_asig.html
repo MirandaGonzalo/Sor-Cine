@@ -2,7 +2,7 @@
     {% load static %}
     <head>
 
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
 
         <!-- Importamos materialize.css -->
@@ -12,6 +12,20 @@
         <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
+
+        <style>
+
+            .modal {
+                left: 0;
+                right: 0;
+                background-color: #e6e6ff;
+                padding: 0;
+                max-height: 80%;
+                width: 45%;
+                will-change: top, opacity;
+            }
+
+        </style>
 
     </head>
     <body style="background-color:#80aaff" >
@@ -62,7 +76,7 @@
                                 <td>{{sala.pelicula.nombre}}</td>
                                 <td>{{sala.fecha_inicio|date:"d/M/Y"}} - {{sala.fecha_fin|date:"d/M/Y"}}</td>
                                 <td>{{sala.entradas_vendidas}}</td>
-                                <td><a  class="waves-effect waves-light btn" href="{% url 'datos_pelicula' sala.pelicula.id %}"><i style="font-size:15px" class="material-icons">info</i></a></td>
+                                <td><a class="waves-effect waves-light btn" onclick="info_pelicula('{% url 'datos_pelicula' sala.pelicula.id %}')"><i style="font-size:15px" class="material-icons">info</i></a></td>
 
                             </tr>
                             {% endfor %}
@@ -82,6 +96,11 @@
             </ul>
         </div>
 
+        <div id="modal" class="modal">
+            <div id="datos">
+            </div>
+        </div>
+
     </body>
     <script>
 
@@ -95,6 +114,21 @@
         $(document).ready(function(){
             $('.fixed-action-btn').floatingActionButton();
         });
+
+        function info_pelicula(url, alum){
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+            })
+                .done(function (data) {
+                $("#datos").html(data);
+                $('#modal').modal();
+                $('#modal').modal('open');
+            });
+        }
 
     </script>
 </html>

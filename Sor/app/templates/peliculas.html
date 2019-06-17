@@ -26,6 +26,17 @@
                 display: inline-block; /* make blocks inline-block */
                 text-align: initial; /* restore text-align to default */
             }
+
+            .modal {
+                left: 0;
+                right: 0;
+                background-color: #e6e6ff;
+                padding: 0;
+                max-height: 80%;
+                width: 45%;
+                will-change: top, opacity;
+            }
+
         </style>
 
     </head>
@@ -67,7 +78,7 @@
                     <div class="card-body">
                         <br>
                         <center><h4 class="card-title">{{pelicula.nombre|title}}</h4></center>
-                        <a href="{% url 'datos_pelicula' pelicula.id%}"><img alt="Trulli" width="245" height="250" src="{{ pelicula.portada.url }}"></a>
+                        <a onclick="info_pelicula('{% url 'datos_pelicula' pelicula.id %}')"><img alt="Trulli" width="245" height="250" src="{{ pelicula.portada.url }}"></a>
 
                     </div>
                     <br>
@@ -83,6 +94,31 @@
             {% endfor %}
         </div>
 
-    </body>
+        <div id="modal" class="modal">
+            <div id="datos">
+            </div>
+        </div>
 
+
+
+    </body>
+    <script>
+
+        function info_pelicula(url, alum){
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+            })
+                .done(function (data) {
+                $("#datos").html(data);
+                $('#modal').modal();
+                $('#modal').modal('open');
+            });
+        }
+
+
+    </script>
 </html>

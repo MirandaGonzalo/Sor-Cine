@@ -11,7 +11,7 @@ class Director(models.Model):
     fecha_nacimiento = models.DateTimeField(null=False)
     
     def __str__(self):
-        return 'Director {} {} nacido en {}'.format(self.apellido, self.nombre, self.fecha_nacimiento)
+        return '{} {}'.format(self.apellido, self.nombre)
 
 class Pelicula(models.Model):
     DR = 'Drama'

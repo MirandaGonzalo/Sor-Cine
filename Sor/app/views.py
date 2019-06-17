@@ -85,6 +85,7 @@ def generar_informe(request, id_sala_a):
 
     # Sheet header, first row
     row_num = 0
+    row_num2 = 0
 
     font_style = xlwt.XFStyle()
     font_style.font.bold = True

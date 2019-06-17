@@ -1,75 +1,17 @@
-<html>
-    {% load static %}
-    <head>
-
-        <link href="{% static 'materialize/icons/icons.css' %}" rel="stylesheet">
-        <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'materialize/js/materialize.min.js' %}"></script>
-
-        <!-- Importamos materialize.css -->
-
-        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
-
-        <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
-
-        <style>
-            br2 {
-                display: block;
-                margin: 10px;
-            }
-        </style>
-
-    </head>
-    <body style="background-color:#80aaff">
-
-
-        <div class="navbar-fixed">
-            <nav style="background-color: black" role="navigation">
-                <div class="nav-wrapper z-depth-4">
-                    <a id="logo-container" data-target="modal1" href="{% url 'index' %}" class="brand-logo modal-trigger">
-                        <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
-
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li><a href="{% url 'salas' %}">Salas</a></li>
-                        <li><a href="{% url 'ver_peliculas' %}">Ver Cartelera</a></li>
-                    </ul>
-
-                </div>
-            </nav>
-
-        </div>
-
-
-        <center><h3><strong><u>Datos de {{pelicula.nombre}}</u></strong></h3></center>
-
-
-        <h3>Sinopsis:</h3><p>{{pelicula.descripcion}}</p>
-        <br2></br2>
-        <h3>Genero: </h3>
-        <p>{{pelicula.genero}}</p>
-        <br2>
-            <h3>Director: </h3>
-            <p>{{pelicula.director}}</p>
-            <br2></br2>
-            <h3>Fecha de Estreno: </h3>
-            <p>{{pelicula.fecha_estreno}}</p>
-            <br2></br2>
-            <h3>Clasificacion: </h3>
-            <p>{{pelicula.clasificacion}}</p>
-            <br2></br2>
-            <p>Salas donde se encuentra esta pelicula: </p>
+<br>
+<div class="card-body">
+        <center><h4 class="card-title"><b><u>Datos de {{pelicula.nombre|title}}</u></b></h4>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Sinopsis: {{pelicula.descripcion}}</li>
+            <li class="list-group-item">Director: {{pelicula.director}}</li>
+            <li class="list-group-item">Fecha de Estreno: {{pelicula.fecha_estreno|date:"d/M/Y"}}</li>
+            <li class="list-group-item">Clasificacion: {{pelicula.clasificacion}}</li>
+            <span>Salas donde se encuentra la pelicula: </span>
             <ul>
                 {% for sala in salas_disponibles %}
                 <li>{{sala.sala.numero}}</li>
                 {% endfor %}
             </ul>
-
-            <button>Continuar</button>
-
-        </br2>
-
-
-    </body>
-</html>
+        </ul>
+        </center>
+</div>
