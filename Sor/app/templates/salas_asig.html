@@ -1,37 +1,100 @@
-<div class="modal-dialog">
-    <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-            <h3><strong>Datos de la Sala {{sala.numero}}.</strong></h3>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">
-            <div id="obrass">
+<html>
+    {% load static %}
+    <head>
 
-                <table class="table table-bordered" id="tabla_trans">
-                    <thead>
-                        <tr>
-                            <th>Pelicula</th>
-                            <th>Fecha Inicio</th>
-                            <th>Dni</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for sala in salas_asignadas %}
-                        <tr>
-                            <td>{{sala.pelicula.nombre|title}}</td>
-                            <td>{{sala.fecha_inicio|date:"d/M/Y"}}</td>
-                            <td>{{sala.fecha_fin|date:"d/M/Y"}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script type="text/javascript" src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+
+        <!-- Importamos materialize.css -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <!-- Permitirle al navegador saber si está optimizado para dispositivos móbiles -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
+
+    </head>
+    <body style="background-color:#80aaff" >
+        <div class="navbar-fixed">
+            <nav style="background-color: black" role="navigation">
+                <div class="nav-wrapper z-depth-4">
+                    <a id="logo-container" data-target="modal1" href="{% url 'index' %}" class="brand-logo modal-trigger">
+                        <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
+
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="{% url 'salas' %}">Salas</a></li>
+                        <li><a href="{% url 'ver_peliculas' %}">Ver Cartelera</a></li>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+        <br>
+        <nav style="background-color: black" role="show">
+            <div class="nav-wrapper z-depth-4">
+
+                <!-- Logo y título centrado -->
+
+                <a id="logo-container" class="brand-logo center modal-trigger">
+                    <i class="material-icons prefix" style="font-size: 45px">star</i> Peliculas Proyectadas en la Sala {{sala.numero}}
+                </a>
             </div>
+        </nav>
+        <br>
 
+        <br>
+        <div class="container">
+            <div class="card-panel teal orange-2">
+                <div class="col s6">
+                    <table class="centered highlight">
+                        <thead>
+                            <tr>
+                                <th data-field="id">Pelicula</th>
+                                <th data-field="name">Fecha</th>
+                                <th data-field="price">Entradas Vendidas</th>
+                                <th data-field="price">Info</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for sala in salas_asignadas %}
+                            <tr>
+                                <td>{{sala.pelicula.nombre}}</td>
+                                <td>{{sala.fecha_inicio|date:"d/M/Y"}} - {{sala.fecha_fin|date:"d/M/Y"}}</td>
+                                <td>{{sala.entradas_vendidas}}</td>
+                                <td><a  class="waves-effect waves-light btn" href="{% url 'datos_pelicula' sala.pelicula.id %}"><i style="font-size:15px" class="material-icons">info</i></a></td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <!-- Modal footer -->
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar_btn">Cerrar</button>
+
+
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large red">
+                <i class="large material-icons">folder_open</i>
+            </a>
+            <ul>
+                <li><a class="btn-floating blue" href="{% url 'generar_informe' sala.id %}"><i class="material-icons">insert_drive_file</i></a></li>
+            </ul>
         </div>
-    </div>
-</div>
+
+    </body>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, options);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function(){
+            $('.fixed-action-btn').floatingActionButton();
+        });
+
+    </script>
+</html>

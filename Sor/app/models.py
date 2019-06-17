@@ -74,14 +74,15 @@ class asignar_Sala(models.Model):
     pelicula = models.ForeignKey(Pelicula)
     sala = models.ForeignKey(Sala)
     en_cartelera = models.BooleanField(default=True)
+    entradas_vendidas = models.IntegerField(default=0)
     
     def __str__(self):
         return 'En la Sala {} se encuentra la pelicula {}'.format(self.sala.numero, self.pelicula.nombre)
     
 class Entrada(models.Model):
     cantidad = models.IntegerField(null=False, default=1)
-    sala = models.ForeignKey(Sala)
     precio = models.IntegerField(null=False)
+    sala_p = models.ForeignKey(asignar_Sala)
     
     def __str__(self):
-        return '{} entradas vendidas para {} en la sala {}.'.format(self.cantidad, self.sala.pelicula.nombre, self.sala.numero)
+        return '{} entradas vendidas para {} en la sala {}.'.format(self.cantidad,self.sala_p.pelicula.nombre, self.sala_p.sala.numero)

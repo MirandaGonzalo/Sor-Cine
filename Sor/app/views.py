@@ -3,12 +3,10 @@ from __future__ import unicode_literals
 from .models import *
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+import xlwt
 
 def index(request): 
-    peliculas = asignar_Sala.objects.filter(en_cartelera=True).order_by('pelicula__nombre')    
-    entradas = Entrada.objects.all()
-    for a in entradas:
-        print a.cantidad
+    peliculas = asignar_Sala.objects.filter(en_cartelera=True).order_by('pelicula__nombre')
     return render(request, 'index.html', {'todas_las_peliculas':peliculas})
 
 def datos_pelicula(request, id_pelicula):
@@ -28,15 +26,18 @@ def compra(request):
         precio = request.POST['precio']
         id_sala = request.POST['id_sala']
         id_peli = request.POST['id_peli']
+
         sala = Sala.objects.get(id=id_sala)
         id_sala2 = sala.id
         pelicula = Pelicula.objects.get(id=id_peli) 
+        sala_a = asignar_Sala.objects.get(pelicula=pelicula, sala=sala)
         limite = sala.cant_asientos
         vendidas = 0
-        entradas = Entrada.objects.filter(sala__id=id_sala2)
+        entradas = Entrada.objects.filter(sala_p=sala_a)
         for a in entradas:
             total = a.cantidad
             vendidas += total
+
         disponible = (limite-vendidas)
         vend = int(vendidas)
         can = int(cant_entradas)
@@ -45,9 +46,10 @@ def compra(request):
         if (a > limite):
             msg = "No hay suficientes asientos disponibles."
         else:
-            print ("llega")
-            entrada = Entrada(cantidad=can, sala=sala, precio=precio)
+            entrada = Entrada(cantidad=can,precio=precio, sala_p=sala_a)
             entrada.save()
+            sala_a.entradas_vendidas += entrada.cantidad
+            sala_a.save()
             msg = "Entradas compradas con exito."
             estado = 1
         data = {
@@ -69,5 +71,38 @@ def salas(request):
 
 def salas_asignadas(request, id_sala):
     sala_elegida = Sala.objects.get(id=id_sala)
-    salas_asignadas = asignar_Sala.objects.filter(sala__id=id_sala, en_cartelera=True)
+    salas_asignadas = asignar_Sala.objects.filter(sala__id=id_sala, en_cartelera=True).order_by('pelicula__nombre')
+    for a in salas_asignadas:
+        print a.entradas_vendidas
     return render(request, 'salas_asig.html', {'salas_asignadas':salas_asignadas, 'sala':sala_elegida})
+
+def generar_informe(request, id_sala_a):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="datos_sala.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Users')
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['Pelicula', 'Entradas Vendidas']
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+
+
+    rows = asignar_Sala.objects.filter(sala__id=id_sala_a).values_list('pelicula__nombre', 'entradas_vendidas').order_by('entradas_vendidas')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
+    return response

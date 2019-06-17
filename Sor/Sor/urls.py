@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^salas/', salas, name="salas"),
     url(r'^ver_peliculas/', ver_peliculas, name="ver_peliculas"),
     url(r'^datos_pelicula/(?P<id_pelicula>\d+)$', datos_pelicula, name="datos_pelicula"),
+    url(r'^generar_informe/(?P<id_sala_a>\d+)$', generar_informe, name="generar_informe"),
     url(r'^salas_asignadas/(?P<id_sala>\d+)$', salas_asignadas, name="salas_asignadas"),
     url(r'^compra_entradas/(?P<id_pelicula>\d+)$', compra_entradas, name="compra_entradas"),
     url(r'^admin/', admin.site.urls),

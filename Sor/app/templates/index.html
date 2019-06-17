@@ -71,7 +71,7 @@
             </nav>
 
             {% for pelicula in todas_las_peliculas %}
-                <a class="carousel-item" ><img src="{{ pelicula.pelicula.portada.url }}" href="{% url 'datos_pelicula' pelicula.pelicula.id %}"></a>
+                <a class="carousel-item" href="{% url 'datos_pelicula' pelicula.pelicula.id%}"><img src="{{ pelicula.pelicula.portada.url }}"></a>
             {% endfor %}
         </div>
         <br>

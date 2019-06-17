@@ -17,27 +17,33 @@
         <style>
 
             br {
-               display: block;
-               margin: 10px 0;
+                display: block;
+                margin: 10px 0;
+            }
+
+            .center-cols > .col {
+                float:none; /* disable the float */
+                display: inline-block; /* make blocks inline-block */
+                text-align: initial; /* restore text-align to default */
             }
         </style>
 
     </head>
 
     <body style="background-color:#80aaff" >
-      <div class="navbar-fixed">
-        <nav style="background-color: black" role="navigation">
-            <div class="nav-wrapper z-depth-4">
-                <a id="logo-container" data-target="modal1" href="{% url 'index' %}" class="brand-logo modal-trigger">
-                    <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
+        <div class="navbar-fixed">
+            <nav style="background-color: black" role="navigation">
+                <div class="nav-wrapper z-depth-4">
+                    <a id="logo-container" data-target="modal1" href="{% url 'index' %}" class="brand-logo modal-trigger">
+                        <i class="material-icons prefix" style="font-size: 45px">videocam</i> CINE HOYTS </a>
 
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="badges.html">Salas</a></li>
-                </ul>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="badges.html">Salas</a></li>
+                    </ul>
 
-            </div>
-        </nav>
-    </div>
+                </div>
+            </nav>
+        </div>
         <br>
         <br>
         <nav style="background-color: black" role="show">
@@ -54,26 +60,29 @@
         <br>
 
 
-        <div class="row" id="pedidos_matriculacion">
-
+        <div class="row center-cols center-align">
             {% for pelicula in todas_las_peliculas %}
-            <div class="card text-center" style="width:20%; margin-left: 3%;">
-                <div class="card-body">
+            <div class="col m3">
+                <div class="card text-center" style="width:82%; margin-left: 3%;">
+                    <div class="card-body">
+                        <br>
+                        <center><h4 class="card-title">{{pelicula.nombre|title}}</h4></center>
+                        <a href="{% url 'datos_pelicula' pelicula.id%}"><img alt="Trulli" width="245" height="250" src="{{ pelicula.portada.url }}"></a>
+
+                    </div>
                     <br>
-                    <center><h4 class="card-title">{{pelicula.nombre|title}}</h4></center>
-                    <img alt="Trulli" width="257" height="250" src="{{ pelicula.portada.url }}">
+                    <div class="card-footer">
+                        <center>
+                            <a class="waves-effect waves-light btn" href="{% url 'compra_entradas' pelicula.id%}">Comprar</a></center>
+                        <span class="card-title activator grey-text text-darken-4"><i class="material-icons right"></i></span>
 
+                    </div>
+                    <br>
                 </div>
-                <br>
-                <div class="card-footer">
-                    <big class="text-muted"><center><a class="waves-effect waves-light btn" href="{% url 'datos_pelicula' pelicula.id%}">Ver Mas</a></center></big>
-                    <span class="card-title activator grey-text text-darken-4"><i class="material-icons right"></i></span>
-
-                </div>
-                <br>
             </div>
             {% endfor %}
         </div>
+
     </body>
 
 </html>
